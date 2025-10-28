@@ -1,0 +1,33 @@
+name: Build Love2D APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Create game.love
+      run: |
+        zip -r game.love *.lua || echo "No lua files found"
+        if [ ! -f "game.love" ]; then
+          echo "Creating empty game.love with sample game"
+          cat > main.lua << 'EOF'
+function love.draw()
+    love.graphics.print("Hello Mobile! Floor is Lava", 50, 50)
+end
+EOF
+          zip -r game.love *.lua
+        fi
+    
+    - name: Build Android APK
+      uses: urafrog/love2d-android-build-action@v1.0.0
+      with:
+        love_file: 'game.love'
+        app_name: 'Floor is Lava'
+        package_name: 'com.gamer.floorislava'

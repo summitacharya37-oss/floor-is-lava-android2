@@ -1,0 +1,14 @@
+name: Build APK
+
+on: [workflow_dispatch, push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build APK
+      uses: urafrog/love2d-android-build-action@v1.0.0
+      with:
+        love_file: 'main.lua'
+        app_name: 'Floor is Lava'

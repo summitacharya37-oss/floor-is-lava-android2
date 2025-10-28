@@ -1,0 +1,23 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Build Love2D APK
+      uses: love2d-android-build/build@v1
+      with:
+        love_file: './game.love'
+        app_name: 'Floor is Lava'
+        package_name: 'com.yourname.floorislava'
+        version_name: '1.0'
+        version_code: 1
